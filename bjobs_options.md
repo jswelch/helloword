@@ -582,7 +582,304 @@ jobarray\[1\], **AAA**\[1\] returns the first element in all job arrays
 with names containing AAA, however job1\[\*\] will not return anything
 since the wildcard is within the array index.
 
+-Jd\
+Displays information about jobs with the specified job description.
 
+Categories\
+filter
+
+Synopsis\
+bjobs -Jd job_description\
+Description\
+Only displays jobs that were submitted by the user running this command.
+
+The job description can be up to 4094 characters long. Job descriptions
+are not unique.
+
+The wildcard character (\*) can be used anywhere within a job
+description.
+
+-json\
+Displays the customized output in JSON format.
+
+Categories\
+format
+
+Synopsis\
+bjobs -o format -json\
+Conflicting options\
+Do not use with the -noheader option.
+
+Description\
+Note: The -json command is not supported for Microsoft Windows or Apple
+OS X operating systems.\
+When specified, bjobs -o displays the customized output in the JSON
+format.
+
+This option applies only to output for the bjobs -o command for
+customized output. This option has no effect when run with bjobs without
+the -o option and the LSB_BJOBS_FORMAT environment variable or parameter
+are not defined.
+
+-json\
+Displays the customized output in JSON format.
+
+Categories\
+format
+
+Synopsis\
+bjobs -o format -json\
+Conflicting options\
+Do not use with the -noheader option.
+
+Description\
+Note: The -json command is not supported for Microsoft Windows or Apple
+OS X operating systems.\
+When specified, bjobs -o displays the customized output in the JSON
+format.
+
+This option applies only to output for the bjobs -o command for
+customized output. This option has no effect when run with bjobs without
+the -o option and the LSB_BJOBS_FORMAT environment variable or parameter
+are not defined.
+
+-Lp\
+Displays jobs that belong to the specified LSF License Scheduler
+project.
+
+Categories\
+filter
+
+Synopsis\
+bjobs -Lp ls_project_name
+
+-l\
+Long format. Displays detailed information for each job in a multi-line
+format.
+
+Categories\
+format
+
+Synopsis\
+bjobs -l\
+Description\
+The -l option displays the following additional information:\
+Project name\
+Job command\
+Current working directory on the submission host\
+Initial checkpoint period\
+Checkpoint directory\
+Migration threshold\
+Predicted job start time\
+Pending and suspending reasons\
+Job status\
+Job kill reason\
+Number of resources (or, starting in Fix Pack 14, the assigned resource
+names for each job)\
+Resource usage\
+Resource usage limits information\
+Memory and CPU usage information, such as CPU efficiency, CPU peak
+usage, and memory efficiency values\
+Runtime resource usage information on the execution hosts\
+Pending time limits, and eligible pending time limits\
+Job description\
+Name of any esub or epsub used with the job\
+Energy usage (if energy accounting with IBM® Spectrum LSF Explorer is
+enabled by setting LSF_QUERY_ES_FUNCTIONS="energy" or "all" in the
+lsf.conf file)\
+Approximate accumulated job disk usage (I/O) data on IBM Spectrum Scale
+(if IBM Spectrum Scale I/O accounting with IBM Spectrum LSF Explorer is
+enabled by setting LSF_QUERY_ES_FUNCTIONS="gpfsio" or "all" in the
+lsf.conf file)\
+Planned start time for jobs with a schedule and reservation plan.\
+GPU requirement and allocation information\
+Account name for LSF resource connector\
+If the job was submitted with the bsub -K command, the -l option
+displays Synchronous Execution.
+
+Use the bjobs -A -l command to display detailed information for job
+arrays, including job array job limit (% job_limit) if set.
+
+Use the bjobs -ss -l command to display detailed information for session
+scheduler jobs.
+
+Use the bjobs -data -l command to display detailed information for jobs
+with data requirements (for example, jobs that are submitted with
+-data).
+
+The bjobs -pl command displays detailed information about all pending
+jobs of the invoker.
+
+If the JOB_IDLE parameter is configured in the queue, use bjobs -l to
+display job idle exception information.
+
+If you submitted your job with the -U option to use advance reservations
+that are created with the brsvadd command, bjobs -l shows the
+reservation ID used by the job.
+
+If the LSF_HPC_EXTENSIONS="SHORT_PIDLIST" parameter is specified in the
+lsf.conf file, the output from bjobs is shortened to display only the
+first PID and a count of the process group IDs (PGIDs) and process IDs
+for the job. Without SHORT_PIDLIST, all of the process IDs (PIDs) for a
+job are displayed.
+
+If the LSF_HPC_EXTENSIONS="HOST_RUSAGE" parameter is specified in the
+lsf.conf file, the output from the bjobs -l command reports the correct
+rusage-based usage and the total rusage that is being charged to the
+execution host.
+
+If you submitted a job with multiple resource requirement strings by
+using the bsub -R option for the order, same, rusage, and select
+sections, bjobs -l displays a single, merged resource requirement string
+for those sections, as if they were submitted by using a single -R
+option.
+
+If you submitted a job by using the OR (\|\|) expression to specify
+alternative resources, this option displays the Execution rusage string
+with which the job runs.
+
+Predicted start time for PEND reserve job is not shown with the bjobs -l
+command option. LSF does not calculate the predicted start time for PEND
+reserve job if no back fill queue is configured in the system. In that
+case, resource reservation for PEND jobs works as normal, and no
+predicted start time is calculated.
+
+For resizable jobs, the -l option displays active pending resize
+allocation requests, and the latest job priority for running jobs with
+active pending resize requests.
+
+For jobs with user-based fair share scheduling, displays the charging
+SAAP (share attribute account path).
+
+For jobs submitted to an absolute priority scheduling (APS) queue, -l
+shows the ADMIN factor value and the system APS value if they are not
+set by the administrator for the job.
+
+For jobs submitted with SSH X11 forwarding, displays that the job was
+submitted in SSH X11 forwarding mode as well as the SSH command
+submitted (set in LSB_SSH_XFORWARD_CMD in lsf.conf).
+
+If the job was auto-attached to a guarantee SLA, -l displays the
+auto-attached SLA name.
+
+Specified CWD shows the value of the bsub -cwd option or the value of
+LSB_JOB_CWD. The CWD path with pattern values is displayed. CWD is the
+submission directory where bsub ran. If specified CWD was not defined,
+this field is not shown. The execution CWD with pattern values is always
+shown.
+
+If the job was submitted with an energy policy, to automatically select
+a CPU frequency, -l shows the Combined CPU frequency (the CPU frequency
+that is selected for the job based on the energy policy tag, energy
+policy, and threshold file). If the job was submitted with a
+user-defined CPU frequency (by using bsub -freq), -l shows the Specified
+CPU frequency for the job.
+
+For jobs submitted with the default GPU requirements (with the option
+~~gpu~~), use the bjobs -l command to see the default job-level resource
+requirement without details like \<num=1...\>: Requested GPU.
+
+If the -gpu option specifies GPU requirements (for example, -gpu num=3,
+the bjobs -l shows the details as Requested GPU \<num=3\>.
+
+The bjobs -l command displays an output section for GPU jobs that shows
+the combined and effective GPU requirements that are specified for the
+job. The GPU requirement string is in the format of the GPU_REQ
+parameter in the application profile or queue:\
+The combined GPU requirement is merged based on the current GPU
+requirements in job, queue, application, or default GPU requirement.\
+The effective GPU requirement is the one used by a started job. It never
+changes after a job is started.\
+Jobs that are submitted with an esub (or epsub) by using bsub -a (or
+modified by using bmod -a), shows the latest esubs used for execution in
+bjobs -l output, first with the default and then user esubs. If a
+user-specified esub script is the same as the default esub script, the
+duplicate esubs shows as one entry. If a job is submitted with an esub
+containing parameters, the esub and its parameters are shown in bjobs -l
+as well, and the format of the esub is the same as the esub that is
+specified in the job submission. For example:\
+bsub -a "test(a,b,c) " sleep 10000
+
+is shown as:\
+Job \<1561\>, User `<joes>`{=html}, Project
+
+<default>
+
+, Status `<RUN>`{=html}, Queue `<normal>`{=html},\
+Command \<sleep 1000000\>, Share group charged `</joes>`{=html}, Esub
+\<test(a,b,c)\>
+
+If enhanced energy accounting with IBM Spectrum LSF Explorer is enabled
+(with LSF_ENABLE_BEAT_SERVICE in lsf.conf), output shows the energy
+usage in Joule and kWh.
+
+If the lsb.params configuration file is configured with
+ALLOCATION_PLANNER = Y, and sets of candidate jobs have been identified
+for consideration for an allocation plan, LSF creates a scheduling and
+reservation allocation plan.
+
+bjobs --l : displays the planned start time for all jobs with an
+allocation plan.\
+bjobs --l --plan : filter for jobs with allocation plans, displaying the
+planned start time and planned allocation for each job.
+
+-m\
+Displays jobs dispatched to the specified hosts.
+
+Categories\
+filter
+
+Synopsis\
+bjobs -m host_name ... \| -m host_group ... \| -m cluster_name\
+Description\
+To see the available hosts, use bhosts.
+
+If a host group or compute unit is specified, displays jobs dispatched
+to all hosts in the group. To determine the available host groups, use
+bmgroup. To determine the available compute units, use bmgroup -cu.
+
+You can specify a single cluster. If a remote cluster name is specified,
+you see the remote job ID, even if the execution host belongs to the
+local cluster. To determine the available clusters, use bclusters.
+
+Examples\
+bjobs -d -q short -m hostA -u user1
+
+Displays all the recently finished jobs submitted by user1 to the queue
+short, and executed on the host hostA.
+
+-N\
+Displays information about done and exited jobs, also displays the
+normalized CPU time consumed by the job.
+
+Categories\
+filter, format, state
+
+Synopsis\
+bjobs -N host_name \| -N host_model \| -N cpu_factor\
+Description\
+Normalizes using the CPU factor specified, or the CPU factor of the host
+or host model specified.
+
+Use with -p, -r, and -s to show information about pending, running, and
+suspended jobs along with done and exited jobs.
+
+-noheader\
+Removes the column headings from the output.
+
+Categories\
+format
+
+Synopsis\
+bjobs -noheader\
+Description\
+When specified, bjobs displays the values of the fields without
+displaying the names of the fields. This is useful for script parsing,
+when column headings are not necessary.
+
+This option applies to output for the bjobs command with no options, and
+to output for all bjobs options with short form output except for -aff,
+-l, -UF, -N, -h, and -V.
 
 
 
