@@ -1,4 +1,33 @@
-List of options for the bjobs command.
+bjobs
+
+Displays and filters information about LSF jobs. Specify one or more job
+IDs (and, optionally, an array index list) to display information about
+specific jobs (and job arrays).
+
+Synopsis\
+bjobs \[options\] \[job_ID \| "job_ID\[index_list\]" ... \]\
+bjobs -h\[elp\] \[all\] \[description\] \[category_name ...\]
+\[-option_name ...\]\
+bjobs -V\
+Categories and options\
+Use the keyword all to display all options and the keyword description
+to display a detailed description of the bjobs command. For more details
+on specific categories and options, specify bjobs -h with the name of
+the categories and options.
+
+Filter specific types of jobs: -A, -aff, -app, -aps, -bucket, -data,
+-env, -fwd, -g, -G, -J, -Jd, -Lp, -m, -N, -P, -plan, -prio, -psum, -q,
+-rusage, -script, -sla, -ss, -u.\
+Control the bjobs display format: -aff, -cname, -hostfile, -l, -N,
+-noheader, -o, -psum, -sum, -UF, -w, -W, -WF, -WL, -WP, -X.\
+Display specific job states: -a, -d, -N, -p, -pe, -pei, -pi, -psum, -r,
+-s, -sum, -x.
+
+Description\
+By default, displays information about your own pending, running, and
+suspended jobs.
+
+List of options for the bjobs command.\
 
 -A\
 Displays summarized information about job arrays.\
@@ -133,14 +162,6 @@ Displays a description of the specified category, command option, or
 sub-option to stderr and exits.\
 -V\
 Prints LSF release version to stderr and exits.
-
-Filter specific types of jobs: -A, -aff, -app, -aps, -bucket, -data,
--env, -fwd, -g, -G, -J, -Jd, -Lp, -m, -N, -P, -plan, -prio, -psum, -q,
--rusage, -script, -sla, -ss, -u.\
-Control the bjobs display format: -aff, -cname, -hostfile, -l, -N,
--noheader, -o, -psum, -sum, -UF, -w, -W, -WF, -WL, -WP, -X.\
-Display specific job states: -a, -d, -N, -p, -pe, -pei, -pi, -psum, -r,
--s, -sum, -x.
 
 -A\
 Displays summarized information about job arrays.
